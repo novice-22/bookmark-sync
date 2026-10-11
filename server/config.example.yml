@@ -1,0 +1,20 @@
+# hacdias/webdav 설정 예시.  cp config.example.yml config.yml  후 해시만 바꾸세요.
+# config.yml 은 .gitignore 에 들어 있습니다.
+#
+# floccus 의 WebDAV 어댑터가 쓰는 메서드는 GET / PUT / DELETE / MOVE / PROPFIND / HEAD 6개뿐이고,
+# 잠금은 WebDAV LOCK 이 아니라 .lock 파일 방식이라 별도 설정이 필요 없습니다.
+
+address: 0.0.0.0   # 컨테이너 내부 바인딩. 외부 노출 범위는 compose 의 BIND_IP 가 정한다
+port: 6065
+directory: /data
+
+permissions: ""    # 기본은 권한 없음. 아래 users 에서만 부여
+behindProxy: false
+noSniff: true
+debug: false
+
+users:
+  - username: floccus
+    # bcrypt 해시만 넣는다. 평문 금지. 만드는 법은 docs/SETUP.md 참고
+    password: "{bcrypt}REPLACE_WITH_BCRYPT_HASH"
+    permissions: CRUD

@@ -1,0 +1,54 @@
+# floccus 북마크 동기화용 self-hosted WebDAV.
+# 값은 전부 같은 폴더의 .env 에서 읽는다 (.env.example 참고). 이 파일에는 환경 정보가 없다.
+
+services:
+  webdav:
+    container_name: bookmarks-dav
+    # 태그 + digest 고정 — 태그가 재지정돼도 검증한 그 이미지만 뜬다 (linux/arm64·amd64)
+    image: hacdias/webdav:v5.17.0@sha256:8b8a39de046fd04a2615f51c245883ea40547efba4ad0b4646e1b7a0d5daf23a
+    restart: unless-stopped
+    command: ["-c", "/config.yml"]
+
+    # ⚠️ BIND_IP 는 VPN(예: Tailscale) 주소나 127.0.0.1 로. 0.0.0.0 이면 인터넷에 공개된다.
+    #    Docker 의 포트 publish 는 호스트 방화벽(INPUT 체인)을 우회하므로 바인딩 주소가 첫 번째 방어선이다.
+    ports:
+      - "${BIND_IP:?.env 에 BIND_IP 를 설정하세요}:${DAV_PORT:-8095}:6065"
+
+    volumes:
+      - ./config.yml:/config.yml:ro
+      - dav-data:/data
+
+    networks:
+      - dav
+
+    security_opt:
+      - no-new-privileges:true
+    user: "10001:10001"
+    cap_drop:
+      - ALL
+    read_only: true
+    tmpfs:
+      - /tmp:size=8m
+    mem_limit: 128m
+    pids_limit: 64
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # healthcheck 없음 — 이미지가 scratch 라 셸·wget 이 없다.
+
+networks:
+  dav:
+    driver: bridge
+    # 서브넷 고정 — firewall.sh 가 이 대역으로 매칭한다. 자동 배정이면 망을 다시 만들 때
+    # 대역이 바뀌어 방화벽 규칙이 조용히 무력화된다.
+    ipam:
+      config:
+        - subnet: ${DAV_SUBNET:-172.31.250.0/24}
+
+volumes:
+  dav-data:
+    # compose 밖에서 만든다 (소유권을 10001 로 넘겨야 해서). 덤으로 `docker compose down -v` 로 안 지워진다.
+    external: true
+    name: bookmarks_dav-data

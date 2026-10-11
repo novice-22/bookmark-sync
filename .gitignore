@@ -1,0 +1,20 @@
+# 실제 환경값·비밀값 — 절대 커밋 금지
+.env
+*.env
+!.env.example
+server/config.yml
+secrets*
+*.secret
+*.key
+*.pem
+
+# 브라우저에서 내보낸 개인 데이터
+*.html
+!extension-probe/*.html
+bookmark-probe-*.json
+bookmark-snapshot-*.json
+backups/
+
+# 기타
+.DS_Store
+Thumbs.db

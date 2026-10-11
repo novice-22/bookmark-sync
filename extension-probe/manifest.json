@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "bookmark probe (read-only)",
+  "version": "0.1.0",
+  "description": "북마크 트리 진단 전용. 읽기만 하며 생성·수정·삭제를 전혀 하지 않습니다.",
+  "permissions": ["bookmarks"],
+  "background": {
+    "service_worker": "sw.js"
+  },
+  "action": {
+    "default_title": "bookmark probe 열기"
+  }
+}

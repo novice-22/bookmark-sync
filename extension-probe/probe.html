@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>bookmark probe</title>
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1a1a1a; --muted: #666; --line: #e2e2e2;
+    --card: #f7f7f8; --accent: #2d6cdf; --warn: #b45309; --bad: #b91c1c; --ok: #15803d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17181a; --fg: #e8e8ea; --muted: #9a9aa2; --line: #2e3034;
+      --card: #202226; --accent: #6fa0ff; --warn: #fbbf24; --bad: #f87171; --ok: #4ade80;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17181a; --fg: #e8e8ea; --muted: #9a9aa2; --line: #2e3034;
+    --card: #202226; --accent: #6fa0ff; --warn: #fbbf24; --bad: #f87171; --ok: #4ade80;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 14px/1.6 ui-sans-serif, system-ui, "Segoe UI", "Malgun Gothic", sans-serif;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 32px 16px 80px; }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  h2 { font-size: 15px; margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  .banner {
+    background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    padding: 10px 14px; border-radius: 6px; margin-bottom: 22px; color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  code, pre { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; }
+  code { background: var(--card); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  pre {
+    background: var(--card); border: 1px solid var(--line); border-radius: 6px;
+    padding: 12px; overflow: auto; max-height: 360px; font-size: 12px; margin: 0;
+  }
+  .verdict { font-weight: 600; }
+  .ok { color: var(--ok); } .bad { color: var(--bad); } .warn { color: var(--warn); }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0 6px; }
+  button {
+    font: inherit; padding: 8px 16px; border-radius: 6px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--card); color: var(--fg);
+  }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:hover { filter: brightness(1.08); }
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 99px; font-size: 11px; border: 1px solid var(--line); color: var(--muted); }
+  @media (max-width: 560px) { .wrap { padding: 20px 16px 60px; } table { font-size: 12px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>bookmark probe</h1>
+  <p class="sub">읽기 전용 진단 — 이 페이지는 북마크를 생성·수정·삭제하지 않습니다.</p>
+  <div class="banner" id="ctx">측정 중…</div>
+  <div id="out"></div>
+  <div class="row">
+    <button class="primary" id="dl">전체 JSON 다운로드</button>
+    <button id="copy">요약 복사</button>
+    <button id="re">다시 측정</button>
+  </div>
+</div>
+<script src="probe.js"></script>
+</body>
+</html>
