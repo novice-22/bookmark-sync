@@ -9,7 +9,7 @@
 [프로필 B · floccus] ──┘
 ```
 
-- **동기화 엔진**: [floccus](https://github.com/floccusaddon/floccus) (기존 오픈소스, 코드 수정 없음)
+- **동기화 엔진**: [floccus](https://github.com/floccusaddon/floccus) — 웹 스토어판 대신 **릴리스 태그 소스를 직접 빌드**해서 로드 (자동 업데이트 없음, 접근 권한을 내 서버 하나로 축소)
 - **저장소**: 직접 띄우는 WebDAV ([hacdias/webdav](https://github.com/hacdias/webdav)) — 이 저장소의 `server/`
 - **암호화**: floccus passphrase 로 E2E — 서버와 백업에는 암호문만 남는다
 - **진단 도구**: `extension-probe/` — 읽기 전용 크롬 확장, 동기화 전 두 프로필 차이를 확인
